@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <style>
+      body {
+        background-color: purple;
+        color: white;
+        font-family: Arial, sans-serif;
+      }
+
+      h2 {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      #chat {
+        height: 300px;
+        width: 90%;
+        margin: 20px auto;
+        overflow-y: scroll;
+        border-radius: 20px;
+        background-color: white;
+        color: black;
+        padding: 10px;
+      }
+
+      #chat p {
+        margin: 10px 0;
+        font-size: 16px;
+      }
+
+      #chat p strong {
+        font-weight: bold;
+      }
+
+      form {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      input[type=text] {
+        width: 70%;
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+      }
+
+      button[type=submit] {
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        background-color: white;
+        color: purple;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Turkish ChatBot System for Cankaya University using Artificial Intelligence</h2>
+    <div id="chat">
+      <p class="bot"><strong>Chatbot:</strong> Hoş geldiniz, nasıl yardımcı olabilirim?</p>
+    </div>
+    <form onsubmit="askQuestion(); return false;">
+      <input type="text" id="question" placeholder="Buraya sorunuzu giriniz..">
+      <button type="submit">Soru Sor</button>
+    </form>
+    <script>
+      function askQuestion() {
+        var question = document.getElementById("question").value;
+        if (question) {
+          document.getElementById("chat").innerHTML += '<p><strong>You:</strong> ' + question + '</p>';
+          document.getElementById("question").value = "";
+          fetch('/chatbot', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'question': question})
+          })
+          .then(response => response.json())
+          .then(data => {
+            var answer = data['answer'];
+            document.getElementById("chat").innerHTML += '<p><strong>Chatbot:</strong> ' + answer + '</p>';
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
