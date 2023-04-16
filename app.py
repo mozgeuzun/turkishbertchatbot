@@ -6,7 +6,7 @@ app = Flask(__name__)
 tokenizer = AutoTokenizer.from_pretrained("savasy/bert-base-turkish-squad")
 model = AutoModelForQuestionAnswering.from_pretrained("savasy/bert-base-turkish-squad")
 nlp = pipeline("question-answering", model=model, tokenizer=tokenizer)
-with open("C:/Users/Hpi5-9/Desktop/bertturkishchatbotforinternship/passage.txt", "r", encoding="utf-8") as f:
+with open("C:/Users/Hpi5-9/Desktop/turkishbertchatbot/passage.txt", "r", encoding="utf-8") as f:
     text = f.read()
 
 @app.route('/')
